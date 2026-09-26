@@ -71,6 +71,26 @@
       background: radial-gradient(circle, rgba(56, 189, 248, 0.1) 0%, transparent 70%);
     }
 
+    /* Desktop Fluid Cursor Glow */
+    #cursor-light {
+      display: none;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      #cursor-light {
+        display: block;
+        position: fixed;
+        width: 350px;
+        height: 350px;
+        border-radius: 50%;
+        pointer-events: none;
+        background: radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, transparent 65%);
+        transform: translate3d(-50%, -50%, 0);
+        z-index: 1;
+        will-change: transform;
+      }
+    }
+
     /* Sticky Navbar */
     header {
       display: flex;
@@ -506,6 +526,9 @@
   <div class="bg-glow glow-1"></div>
   <div class="bg-glow glow-2"></div>
 
+  <!-- Mouse Light (Desktop Only) -->
+  <div id="cursor-light"></div>
+
   <!-- Sticky Navbar -->
   <header>
     <div class="brand">
@@ -616,7 +639,7 @@
           <p>Create your custom Shockify site with the best features and sites.</p>
         </div>
       </div>
-      <a href="https://tinyurl.com/45xp9vu2" target="_blank" class="card-action">Create Your Site</a>
+      <a href="https://shockify.st/?code=MjAzNTAzMDE2MDE1Mjg1MDI5Ng==" target="_blank" class="card-action">Create Your Site</a>
     </div>
 
     <!-- Card 5: Bloxflip -->
@@ -648,6 +671,23 @@
     </div>
 
   </main>
+
+  <script>
+    // Lightweight mouse follower for desktop only
+    const cursor = document.getElementById('cursor-light');
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches && cursor) {
+      let rafPending = false;
+      window.addEventListener('mousemove', (e) => {
+        if (!rafPending) {
+          rafPending = true;
+          requestAnimationFrame(() => {
+            cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
+            rafPending = false;
+          });
+        }
+      }, { passive: true });
+    }
+  </script>
 
 </body>
 </html>
