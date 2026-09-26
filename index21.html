@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>Tojix Realm | #1 Sites</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #040407;
+      --card-bg: rgba(20, 20, 28, 0.65);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --card-border-hover: rgba(168, 85, 247, 0.5);
+      --purple: #a855f7;
+      --purple-glow: rgba(168, 85, 247, 0.35);
+      --cyan: #38bdf8;
+      --text: #f8fafc;
+      --text-dim: #94a3b8;
+      --danger: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-color: var(--bg);
+      color: var(--text);
+    }
+
+    body {
+      padding: 24px 20px 80px 20px;
+      position: relative;
+    }
+
+    /* Ambient background glows */
+    .bg-glow {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      border-radius: 50%;
+    }
+
+    .glow-1 {
+      width: min(500px, 90vw);
+      height: min(500px, 90vw);
+      top: -100px;
+      left: -50px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.16) 0%, transparent 70%);
+    }
+
+    .glow-2 {
+      width: min(600px, 100vw);
+      height: min(600px, 100vw);
+      bottom: -150px;
+      right: -100px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.1) 0%, transparent 70%);
+    }
+
+    /* Sticky Navbar */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      background: rgba(15, 15, 22, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      position: sticky;
+      top: 16px;
+      z-index: 50;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-icon {
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(56, 189, 248, 0.2));
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+    }
+
+    .brand svg {
+      width: 18px;
+      height: 18px;
+      fill: #ffffff;
+    }
+
+    .discord-btn {
+      background: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 9px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .discord-btn:hover {
+      border-color: var(--purple);
+      background: rgba(168, 85, 247, 0.25);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Section */
+    .hero {
+      max-width: 780px;
+      margin: 80px auto 70px auto;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 6px 18px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      margin-bottom: 28px;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-title {
+      font-size: clamp(2.4rem, 6vw, 3.8rem);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.15;
+      margin-bottom: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      color: #ffffff;
+    }
+
+    .hero-title svg {
+      width: clamp(28px, 5vw, 44px);
+      height: clamp(28px, 5vw, 44px);
+      fill: #ffffff;
+    }
+
+    .hero-description {
+      color: var(--text-dim);
+      font-size: clamp(0.95rem, 2.5vw, 1.12rem);
+      line-height: 1.6;
+      max-width: 580px;
+      margin-bottom: 34px;
+      padding: 0 10px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      max-width: 260px;
+      margin-bottom: 56px;
+    }
+
+    .btn-hero-primary {
+      width: 100%;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.9), rgba(126, 34, 206, 0.95));
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      padding: 13px 24px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 0 25px var(--purple-glow);
+      transition: all 0.25s ease;
+    }
+
+    .btn-hero-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 35px var(--purple-glow);
+    }
+
+    .btn-hero-secondary {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #e2e8f0;
+      padding: 12px 24px;
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 0.92rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+      transition: all 0.25s ease;
+    }
+
+    .btn-hero-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: clamp(40px, 12vw, 80px);
+      width: 100%;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      color: var(--text-dim);
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-transform: capitalize;
+    }
+
+    /* Sites Section Heading */
+    .section-title {
+      max-width: 1200px;
+      margin: 0 auto 28px auto;
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Sites Grid Container */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Liquid Glass Cards */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 240px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .card:hover {
+        transform: translateY(-6px);
+        border-color: var(--card-border-hover);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 25px var(--purple-glow);
+      }
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .icon-badge {
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+
+    .featured-tag {
+      background: rgba(168, 85, 247, 0.15);
+      color: #d8b4fe;
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    .card-body h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      margin-bottom: 8px;
+    }
+
+    .card-body p {
+      color: var(--text-dim);
+      font-size: 0.88rem;
+      line-height: 1.5;
+      margin-bottom: 22px;
+    }
+
+    .card-action {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text);
+      text-align: center;
+      text-decoration: none;
+      padding: 12px;
+      border-radius: 14px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      display: block;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .card-action:hover {
+        background: linear-gradient(135deg, var(--purple), #7e22ce);
+        border-color: rgba(255, 255, 255, 0.3);
+        color: #ffffff;
+      }
+    }
+
+    .card-action:active {
+      background: rgba(168, 85, 247, 0.8);
+      color: #ffffff;
+    }
+
+    /* Offline / Disabled Card */
+    .card-disabled {
+      opacity: 0.6;
+      border-style: dashed;
+      border-color: rgba(239, 68, 68, 0.4);
+    }
+
+    .card-disabled h3 strike {
+      color: #64748b;
+    }
+
+    .badge-offline {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--danger);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    .warning-text {
+      color: var(--danger) !important;
+      font-size: 0.82rem !important;
+      font-weight: 700;
+    }
+
+    .btn-disabled {
+      background: rgba(255, 255, 255, 0.02) !important;
+      border-color: rgba(255, 255, 255, 0.05) !important;
+      color: #475569 !important;
+      cursor: not-allowed !important;
+      pointer-events: none;
+    }
+
+    /* Responsive Mobile Breakpoints */
+    @media (max-width: 992px) {
+      .container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 16px 14px 60px 14px;
+      }
+
+      header {
+        padding: 12px 16px;
+        top: 12px;
+        border-radius: 16px;
+      }
+
+      .brand {
+        font-size: 1.1rem;
+      }
+
+      .brand-icon {
+        width: 30px;
+        height: 30px;
+      }
+
+      .discord-btn {
+        padding: 8px 14px;
+        font-size: 0.82rem;
+        border-radius: 10px;
+      }
+
+      .hero {
+        margin: 40px auto 50px auto;
+      }
+
+      .container {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .card {
+        padding: 20px;
+        min-height: auto;
+        border-radius: 18px;
+      }
+
+      .card-body h3 {
+        font-size: 1.15rem;
+      }
+
+      .card-body p {
+        font-size: 0.84rem;
+        margin-bottom: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Glows -->
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+
+  <!-- Sticky Navbar -->
+  <header>
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2L14.39 8.26L21 9.27L16.5 14.14L17.77 21L12 17.77L6.23 21L7.5 14.14L3 9.27L9.61 8.26L12 2Z"/></svg>
+      </div>
+      <span>Tojix Realm</span>
+    </div>
+    <a href="https://discord.gg/wQVQQrCVQ7" class="discord-btn" target="_blank">Join Discord</a>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-badge">
+      ★ #1 Gen Sites
+    </div>
+
+    <h1 class="hero-title">
+      <svg viewBox="0 0 24 24"><path d="M12 2L14.39 8.26L21 9.27L16.5 14.14L17.77 21L12 17.77L6.23 21L7.5 14.14L3 9.27L9.61 8.26L12 2Z"/></svg>
+      Tojix Realm
+    </h1>
+
+    <p class="hero-description">
+      Tojix Realm | #1 Sites — We are the best service provider out there! Premium tools and services for all your needs.
+    </p>
+
+    <div class="hero-buttons">
+      <a href="https://discord.gg/wQVQQrCVQ7" target="_blank" class="btn-hero-primary">
+        Join Discord &rarr;
+      </a>
+      <a href="#sites" class="btn-hero-secondary">
+        View Services
+      </a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-number">99.9%</div>
+        <div class="stat-label">Uptime</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">Support</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sites Grid Anchor -->
+  <div id="sites" class="section-title">
+    <span>⚡ Active Services</span>
+  </div>
+
+  <!-- 3 Up, 3 Down Sites Grid -->
+  <main class="container">
+
+    <!-- Card 1: Ultimba -->
+    <div class="card">
+      <div>
+        <div class="card-top">
+          <div class="icon-badge">🚀</div>
+          <span class="featured-tag">Featured</span>
+        </div>
+        <div class="card-body">
+          <h3>Ultimba</h3>
+          <p>The best site so far</p>
+        </div>
+      </div>
+      <a href="https://lnk.ink/Ultimba" target="_blank" class="card-action">Create Your Site</a>
+    </div>
+
+    <!-- Card 2: Injuries (Disabled) -->
+    <div class="card card-disabled">
+      <div>
+        <div class="card-top">
+          <div class="icon-badge">⚠️</div>
+          <span class="badge-offline">Offline</span>
+        </div>
+        <div class="card-body">
+          <h3><strike>Injuries</strike></h3>
+          <p class="warning-text">⚠️ NOT WORKING RIGHT NOW DONT USE</p>
+        </div>
+      </div>
+      <a href="javascript:void(0)" class="card-action btn-disabled">Not Available</a>
+    </div>
+
+    <!-- Card 3: Splunk -->
+    <div class="card">
+      <div>
+        <div class="card-top">
+          <div class="icon-badge">🚀</div>
+        </div>
+        <div class="card-body">
+          <h3>Splunk</h3>
+          <p>Create your custom Splunk site with the best features and sites.</p>
+        </div>
+      </div>
+      <a href="https://lnk.ink/Splunkultimba" target="_blank" class="card-action">Create Your Site</a>
+    </div>
+
+    <!-- Card 4: Shockify -->
+    <div class="card">
+      <div>
+        <div class="card-top">
+          <div class="icon-badge">🚀</div>
+        </div>
+        <div class="card-body">
+          <h3>Shockify</h3>
+          <p>Create your custom Shockify site with the best features and sites.</p>
+        </div>
+      </div>
+      <a href="https://tinyurl.com/45xp9vu2" target="_blank" class="card-action">Create Your Site</a>
+    </div>
+
+    <!-- Card 5: Bloxflip -->
+    <div class="card">
+      <div>
+        <div class="card-top">
+          <div class="icon-badge">🚀</div>
+        </div>
+        <div class="card-body">
+          <h3>Bloxflip</h3>
+          <p>Gambling site for RBX with secure transactions and fair odds.</p>
+        </div>
+      </div>
+      <a href="https://tinyurl.com/45xp9vu2" target="_blank" class="card-action">Create Your Site</a>
+    </div>
+
+    <!-- Card 6: Immortal -->
+    <div class="card">
+      <div>
+        <div class="card-top">
+          <div class="icon-badge">🚀</div>
+        </div>
+        <div class="card-body">
+          <h3>Immortal</h3>
+          <p>Create your custom Immortal site with the best features and sites.</p>
+        </div>
+      </div>
+      <a href="https://lnk.ink/IMMORTAL.ST" target="_blank" class="card-action">Create Your Site</a>
+    </div>
+
+  </main>
+
+</body>
+</html>
